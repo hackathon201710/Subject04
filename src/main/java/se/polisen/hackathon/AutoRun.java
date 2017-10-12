@@ -13,11 +13,11 @@ import javax.persistence.PersistenceContext;
 
 @Singleton
 @Startup
-public class Starter {
+public class AutoRun {
 
     @PersistenceContext(unitName = "lucene")
     private EntityManager em;
-    private static Logger log = Logger.getLogger(Starter.class);
+    private static Logger log = Logger.getLogger(AutoRun.class);
 
     @PostConstruct
     public void onStart()   {

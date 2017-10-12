@@ -1,4 +1,4 @@
-package com.airhacks;
+package se.polisen.hackathon.rest;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -9,7 +9,7 @@ import javax.ws.rs.core.Application;
  *
  * @author airhacks.com
  */
-@ApplicationPath("resources")
+@ApplicationPath("search")
 public class JAXRSConfiguration extends Application {
 
 }

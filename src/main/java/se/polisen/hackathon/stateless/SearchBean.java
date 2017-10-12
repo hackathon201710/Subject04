@@ -19,13 +19,16 @@ public class SearchBean {
     private EntityManager em;
 
     private QueryBuilder getQueryBuilder(FullTextEntityManager fullTextEntityManager) {
-        return fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity( TestEntity.class ).get();
+        return fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(TestEntity.class).get();
     }
+
 
     public List<TestEntity> findByInfo(String keyword) {
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(em);
-        Query query = getQueryBuilder(fullTextEntityManager).keyword().onField("info").matching( keyword ).createQuery();
-        FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery( query );
-        return (List<TestEntity>) fullTextQuery.getResultList();
+        Query query = getQueryBuilder(fullTextEntityManager).keyword().onField("info").matching(keyword).createQuery();
+        FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(query);
+        @SuppressWarnings("unchecked")
+        List<TestEntity> list = (List<TestEntity>) fullTextQuery.getResultList();
+        return list;
     }
 }
