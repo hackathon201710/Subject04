@@ -3,6 +3,7 @@ package se.polisen.hackathon;
 import org.apache.log4j.Logger;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.Search;
+import se.polisen.hackathon.entity.DomarEntity;
 import se.polisen.hackathon.entity.TestEntity;
 
 import javax.annotation.PostConstruct;
@@ -25,7 +26,13 @@ public class AutoRun {
 
         try {
             FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager( em );
+            fullTextEntityManager.purgeAll( TestEntity.class );
+            fullTextEntityManager.purgeAll( DomarEntity.class );
+            fullTextEntityManager.flushToIndexes();
+
             fullTextEntityManager.createIndexer(TestEntity.class).startAndWait();
+            fullTextEntityManager.createIndexer(DomarEntity.class).startAndWait();
+            
         } catch (Exception e) {
             log.error("onStart", e);
         }
