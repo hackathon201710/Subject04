@@ -21,7 +21,7 @@ public class Api {
     private SearchBean searchBean;
 
     @GET
-    @Produces("application/json")
+    @Produces("application/json; charset=UTF-8")
     public Response test(@QueryParam("keyword") String keyword) {
         List<TestEntity> result = searchBean.searchInfoByKeyword(keyword);
         List<KeyValueDto> copy = new ArrayList<>();
@@ -31,9 +31,16 @@ public class Api {
 
     @GET
     @Path("/domar")
-    @Produces("application/json")
-    public Response searchDomar(@QueryParam("keyword") String keyword) {
-        List<DomarEntity> result = searchBean.searchDomarByKeyword(keyword);
+    @Produces("application/json; charset=UTF-8")
+    public Response searchDomar(@QueryParam("keyword") String keyword, @QueryParam("phrase") String phrase) {
+        List<DomarEntity> result = new ArrayList<>();
+        if(keyword != null) {
+            result.addAll(searchBean.searchDomarByKeyword(keyword));
+        }
+        if(phrase != null) {
+            result.addAll(searchBean.searchDomarByPhrase(phrase));
+        }
+
         List<KeyValueDto> copy = new ArrayList<>();
         result.forEach(entity -> copy.add(new KeyValueDto(entity.getId(), entity.getTitle())));
         return Response.ok(copy).build();

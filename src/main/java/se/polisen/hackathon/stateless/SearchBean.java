@@ -47,6 +47,15 @@ public class SearchBean {
         return list;
     }
 
+    public List<DomarEntity> searchDomarByPhrase(String phrase) {
+        FullTextEntityManager fullTextEntityManager = getFullTextEntityManager();
+        Query query = getDomarQueryBuilder(fullTextEntityManager).phrase().onField("title").sentence(phrase).createQuery();
+        FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(query);
+        @SuppressWarnings("unchecked")
+        List<DomarEntity> list = (List<DomarEntity>) fullTextQuery.getResultList();
+        return list;
+    }
+
     
     private FullTextEntityManager getFullTextEntityManager() {
         return Search.getFullTextEntityManager(em);
